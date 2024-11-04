@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import static com.example.TingesoProyect_backend.util.CreditStatus.APROBADA;
+
 @Service
 public class creditService {
     @Autowired
@@ -43,6 +45,10 @@ public class creditService {
         return creditRepository.findByRutClientAndProcessCredit(rutClient, true);
     }
 
+    public credit getCreditById(long id){
+        return creditRepository.findById(id);
+    }
+
     public credit saveCredit(credit credit){
 
         if (credit.getRutClient() == null || credit.getRutClient().isEmpty()) {
@@ -60,11 +66,11 @@ public class creditService {
 
         if (credit.getIdloanType() == 1 || credit.getIdloanType() == 2) {
             creditOptional = creditRepository.findByRutClientAndIdloanType(credit.getRutClient(), 1);
-            if (creditOptional.isPresent()) {
+            if (creditOptional.isPresent() && creditOptional.get().getCreditStatus() == APROBADA) {
                 throw new IllegalArgumentException("No puede pedir el presente prestamo ya que solo se puede pedir una vez");
             } else {
                 creditOptional = creditRepository.findByRutClientAndIdloanType(credit.getRutClient(), 2);
-                if (creditOptional.isPresent()) {
+                if (creditOptional.isPresent() && creditOptional.get().getCreditStatus() == APROBADA) {
                     throw new IllegalArgumentException("No puede pedir el presente prestamo ya que solo se puede pedir una vez");
                 }
             }
@@ -78,6 +84,8 @@ public class creditService {
             throw new IllegalArgumentException("Su registro aun no ha sido confirmado, por favor intente de nuevo mas tarde");
         }
 
+
+
         return creditRepository.save(credit);
     }
 
@@ -85,27 +93,6 @@ public class creditService {
 
         if (credit.getRutClient() == null || credit.getRutClient().isEmpty()) {
             throw new IllegalArgumentException("Por favor ingrese el RUT");
-        }
-
-        Optional<credit> creditOptional = creditRepository.findByRutClientAndProcessCredit(credit.getRutClient(),true);
-        if (creditOptional.isPresent()){
-            throw new IllegalArgumentException("No puede solicitar otro prestamo ya que ya tiene uno en proceso");
-        }
-
-        if (credit.getIdloanType() == null || credit.getIdloanType() == 0){
-            throw new IllegalArgumentException("por favor seleccione un tipo de credito");
-        }
-
-        if (credit.getIdloanType() == 1 || credit.getIdloanType() == 2) {
-            creditOptional = creditRepository.findByRutClientAndIdloanType(credit.getRutClient(), 1);
-            if (creditOptional.isPresent()) {
-                throw new IllegalArgumentException("No puede pedir el presente prestamo ya que solo se puede pedir una vez");
-            } else {
-                creditOptional = creditRepository.findByRutClientAndIdloanType(credit.getRutClient(), 2);
-                if (creditOptional.isPresent()) {
-                    throw new IllegalArgumentException("No puede pedir el presente prestamo ya que solo se puede pedir una vez");
-                }
-            }
         }
 
         User user = userRepository.findByRut(credit.getRutClient());
@@ -127,4 +114,6 @@ public class creditService {
             throw new Exception(e.getMessage());
         }
     }
+
+
 }

@@ -1,6 +1,7 @@
 package com.example.TingesoProyect_backend.Entities;
 
 import com.example.TingesoProyect_backend.util.CreditStatus;
+import com.example.TingesoProyect_backend.util.SavingStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,6 +31,14 @@ public class credit {
     @Column(nullable = false)
     private Integer amountTotal = 0;
 
+    private double maxPorcentFinancy = 0.0;
+
+    private double porcentInterest;
+
+    private Integer timePay;
+
+    private String coment;
+
     @Column(nullable = false)
     private Boolean processCredit = true;
 
@@ -38,6 +47,9 @@ public class credit {
 
     @Column(nullable = false)
     private Boolean creditEvaluation = false;
+
+    @Enumerated(EnumType.STRING)
+    private SavingStatus savingStatus;
 
     @Column(nullable = false)
     private Boolean savingHistory = false;

@@ -86,7 +86,10 @@
 					</excludes>
 				</configuration>
 			</plugin>
-		</plugins>
+        </plugins>
+		<finalName>
+			TingesoProyect-backend
+		</finalName>
 	</build>
 
 </project>

@@ -19,6 +19,7 @@ public class UserService {
 
     private boolean isAdult(Date birthdate){
         LocalDate birthLocalDate = birthdate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        System.out.println(birthLocalDate);
         return Period.between(birthLocalDate,LocalDate.now()).getYears() >= 18;
     }
 
@@ -41,6 +42,8 @@ public class UserService {
         if (!isAdult(user.getBirthdate())){
             throw new IllegalArgumentException("el usuario debe tener al menos 18 años");
         }
+
+        System.out.println(isAdult(user.getBirthdate()));
 
         return userRepository.save(user);
     }

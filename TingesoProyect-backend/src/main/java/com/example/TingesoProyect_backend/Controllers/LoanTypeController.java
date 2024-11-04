@@ -21,6 +21,12 @@ public class LoanTypeController {
         return ResponseEntity.ok(loanTypes);
     }
 
+    @GetMapping("/loan")
+    public ResponseEntity<LoanType> GetLoanTypeById(@RequestParam long id){
+        LoanType loanType = loanTypeService.getLoanTypeById(id);
+        return ResponseEntity.ok(loanType);
+    }
+
     @GetMapping("/{name}")
     public ResponseEntity<LoanType> GetLoanTypeByName(@PathVariable String name){
         LoanType loanType = loanTypeService.getLoanTypebyName(name);

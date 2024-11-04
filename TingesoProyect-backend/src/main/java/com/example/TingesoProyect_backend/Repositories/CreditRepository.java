@@ -13,6 +13,8 @@ public interface CreditRepository extends JpaRepository<credit, Long> {
 
     public List<credit> findByProcessCredit(Boolean process);
 
+    public credit findById(long id);
+
     public Optional<credit> findByRutClientAndProcessCredit(String rutClient, Boolean process);
 
     public Optional<credit> findByRutClientAndIdloanType(String rutClient, Integer idLoan);

@@ -20,6 +20,10 @@ public class LoanTypeService {
         return loanTypeRepository.findByNameLoan(nameLoan);
     }
 
+    public LoanType getLoanTypeById(long idLoan){
+        return loanTypeRepository.findById(idLoan);
+    }
+
     public LoanType saveLoanType(LoanType loanType){
         if (loanType.getNameLoan() == null || loanType.getNameLoan().isEmpty()){
             throw new IllegalArgumentException("por favor ingrese un nombre del prestamo");

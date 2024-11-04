@@ -4,13 +4,12 @@ import com.example.TingesoProyect_backend.Entities.pdfFile;
 import com.example.TingesoProyect_backend.Repositories.pdfFileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOError;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -22,10 +21,13 @@ public class pdfFileService {
         return (ArrayList<pdfFile>) pdfFileRepository.findAll();
     }
 
+
     public List<pdfFile> getPdfFilesByCredit(Long creditId){
         return pdfFileRepository.findByCreditid(creditId);
     }
 
+
+    @Transactional(readOnly = true)
     public pdfFile getPdfFileByCategoryAndCredit(String category, Long creditId){
         return pdfFileRepository.findByCategoryAndCreditid(category, creditId);
     };

@@ -34,6 +34,12 @@ public class creditController {
         return ResponseEntity.ok(credit);
     }
 
+    @GetMapping("/idcredit")
+    public ResponseEntity<credit> getCreditById(@RequestParam long id){
+        credit Credit = creditservice.getCreditById(id);
+        return ResponseEntity.ok(Credit);
+    }
+
     @PostMapping("/")
     public ResponseEntity<credit> saveCredit(@RequestBody credit creditNew){
         credit credit1 = creditservice.saveCredit(creditNew);

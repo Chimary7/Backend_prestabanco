@@ -1,0 +1,48 @@
+pipeline {
+    agent any
+    tools {
+        maven 'maven_3_8_1'
+        jdk 'jdk_17'
+    }
+    stages {
+        stage('Build maven') {
+            steps {
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Chimary7/Backend_prestabanco']])
+                dir('TingesoProyect-backend') { // Cambia a la carpeta 'backend'
+                    bat 'mvn clean package' // Ejecuta Maven en la subcarpeta
+                }
+            }
+        }
+
+        /*
+        stage('Unit Tests') {
+            steps {
+                dir('TingesoProyect-backend') { // Cambia a la carpeta 'backend' donde está el pom.xml
+                    bat 'mvn test' // Ejecuta las pruebas unitarias
+                }
+            }
+        }
+        */
+
+        stage('Build docker image') {
+            steps {
+                script {
+                    dir('TingesoProyect-backend') { // Cambia a la carpeta 'backend' para construir la imagen Docker
+                        bat 'docker build -t chimary/backendentrega:latest .' // Construye la imagen en la subcarpeta
+                    }
+                }
+            }
+        }
+        
+        stage('Push image to Docker Hub') {
+            steps {
+                script {
+                    withCredentials([string(credentialsId: 'tingeso', variable: 'dhpsw')]) {
+                        bat 'docker login -u chimary -p Vd89014545'
+                    }
+                    bat 'docker push chimary/backendentrega:latest' // Empuja la imagen a Docker Hub
+                }
+            }
+        }
+    }
+}

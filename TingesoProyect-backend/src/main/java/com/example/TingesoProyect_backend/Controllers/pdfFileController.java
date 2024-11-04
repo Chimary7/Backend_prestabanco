@@ -3,6 +3,9 @@ package com.example.TingesoProyect_backend.Controllers;
 import com.example.TingesoProyect_backend.Entities.pdfFile;
 import com.example.TingesoProyect_backend.Services.pdfFileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,9 +32,13 @@ public class pdfFileController {
     }
 
     @GetMapping("/pdfcategorycredit")
-    public ResponseEntity<pdfFile> getpPdfFileCreditCategory(@RequestParam String Category, @RequestParam Long idCredit){
+    public ResponseEntity<byte[]> getPdfFileCreditCategory(@RequestParam String Category, @RequestParam Long idCredit){
         pdfFile pdffile = pdfFileservice.getPdfFileByCategoryAndCredit(Category,idCredit);
-        return ResponseEntity.ok(pdffile);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.add("Content-Disposition","attachment; filename=" + pdffile.getName());
+
+        return new ResponseEntity<>(pdffile.getData(),headers, HttpStatus.OK);
     }
 
     @PostMapping("/")

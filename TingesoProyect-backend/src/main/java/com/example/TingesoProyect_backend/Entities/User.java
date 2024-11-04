@@ -28,6 +28,9 @@ public class User {
     private Date birthdate;
 
     @Column(nullable = false)
+    private Integer Ingreso = 0;
+
+    @Column(nullable = false)
     private Boolean register = false;
 
 }
