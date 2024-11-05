@@ -17,7 +17,7 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    private boolean isAdult(Date birthdate){
+    public boolean isAdult(Date birthdate){
         LocalDate birthLocalDate = birthdate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         System.out.println(birthLocalDate);
         return Period.between(birthLocalDate,LocalDate.now()).getYears() >= 18;

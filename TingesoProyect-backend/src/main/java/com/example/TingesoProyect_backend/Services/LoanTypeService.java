@@ -13,7 +13,7 @@ public class LoanTypeService {
     LoanTypeRepository loanTypeRepository;
 
     public ArrayList<LoanType> getAllLoanType(){
-        return (ArrayList<LoanType>) loanTypeRepository.findAll();
+        return new ArrayList<>(loanTypeRepository.findAll());
     }
 
     public LoanType getLoanTypebyName(String nameLoan){
@@ -53,6 +53,29 @@ public class LoanTypeService {
     }
 
     public LoanType updateLoanType(LoanType loanType){
+        if (loanType.getNameLoan() == null || loanType.getNameLoan().isEmpty()){
+            throw new IllegalArgumentException("por favor ingrese un nombre del prestamo");
+        }
+
+        if (loanType.getRequirements() == null || loanType.getRequirements().isEmpty()){
+            throw new IllegalArgumentException("por favor ingrese los requerimientos necesarios");
+        }
+
+        if (loanType.getMaxTime() <= 0){
+            throw new IllegalArgumentException("por favor ingrese el año de duracion del prestamo");
+        }
+
+        if (loanType.getMaxInterest() <= 0.0 ){
+            throw new IllegalArgumentException("por favor ingrese el interes maximo del prestamo");
+        }
+
+        if (loanType.getMinInterest() <= 0.0){
+            throw new IllegalArgumentException("por favor ingrese el interes minimo del prestamo");
+        }
+
+        if (loanType.getMaxFinanPorcent() <= 0.0){
+            throw new IllegalArgumentException("porfavor ingrese el porcentaje maximo de financiamiento mayor a 0");
+        }
         return loanTypeRepository.save(loanType);
     }
 
