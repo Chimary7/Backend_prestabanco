@@ -24,6 +24,10 @@ public class creditService {
         return (ArrayList<credit>) creditRepository.findByProcessCredit(true);
     }
 
+    public ArrayList<credit> getAllCredit(){
+        return (ArrayList<credit>) creditRepository.findAll();
+    }
+
     public ArrayList<credit> getCreditByRut(String rutClient){
         if (rutClient == null ){
             throw new IllegalArgumentException("por favor ingrese un rut");

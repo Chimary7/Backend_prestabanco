@@ -22,6 +22,12 @@ public class creditController {
         return ResponseEntity.ok(credits);
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<List<credit>> ListAllCredit(){
+        List<credit> credits = creditservice.getAllCredit();
+        return ResponseEntity.ok(credits);
+    }
+
     @GetMapping("/rut")
     public ResponseEntity<List<credit>> getCreditByrutClient(@RequestParam String rutClient){
         List<credit> credits = creditservice.getCreditByRut(rutClient);

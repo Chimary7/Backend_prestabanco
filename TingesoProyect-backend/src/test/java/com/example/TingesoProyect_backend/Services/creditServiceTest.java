@@ -52,6 +52,32 @@ public class creditServiceTest{
     }
 
     @Test
+    void testGetAllCredit() {
+        // Datos de prueba
+        credit credit1 = new credit(1L, "12345678-9", new Date(), 500000, 80.0, 5.0, 12, "comment1", true, 1, false, null, false, CreditStatus.EN_REVISION_INICIAL);
+        credit credit2 = new credit(2L, "12345678-6", new Date(), 700000, 70.0, 5.0, 12, "comment1", false, 1, false, null, false, CreditStatus.EN_REVISION_INICIAL);
+        ArrayList<credit> mockCredits = new ArrayList<>(Arrays.asList(credit1, credit2));
+
+        // Configurar el mock del repositorio
+        when(creditRepository.findAll()).thenReturn(mockCredits);
+
+        // Llamar al método que estamos probando
+        ArrayList<credit> result = creditService.getAllCredit();
+
+        // Verificar que el resultado no sea null y que sea de tipo ArrayList
+        assertNotNull(result, "El resultado no debe ser null");
+        assertTrue(result instanceof ArrayList, "El resultado debe ser un ArrayList");
+
+        // Verificar que los créditos devueltos sean correctos
+        assertEquals(2, result.size(), "El tamaño de la lista debe ser 2");
+        assertEquals(credit1, result.get(0), "El primer crédito debe ser el mismo que credit1");
+        assertEquals(credit2, result.get(1), "El segundo crédito debe ser el mismo que credit2");
+
+        // Verificar que el repositorio fue llamado correctamente
+        verify(creditRepository, times(1)).findAll();
+    }
+
+    @Test
     void testGetCreditByRut_ValidRut() {
         // Arrange: Create a valid user and credits
         String validRut = "12345678-9";
